@@ -110,9 +110,9 @@ function gotResults(error, results) {
     }
     console.log(results);
     drawnSketch = results[0].label;
-    document.getElementById('label').innerHTML = 'your sketch' + drawnSketch.replace("_")
+    document.getElementById('label').innerHTML = 'Your sketch: ' + drawnSketch.replace("_", " ");
 
-
+    document.getElementById('cofidence').innerHTML = 'Precision: ' +Math.round(results[0].cofidence *100)  +  '%';
 
 
 }
