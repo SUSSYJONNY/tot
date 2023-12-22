@@ -55,6 +55,7 @@ quickDrawDataset=["porta-avioes","aviao","despertador","ambulancia","anjo","migr
                         "semaforo","trem","arvore","triangulo","trombone","caminhao","trompete","camiseta","guarda-chuva","roupa intima","van","vaso"," violino",
                         "maquina de lavar","melancia","toboágua","baleia","roda","moinho","garrafa de vinho","copo de vinho","relogio de pulso","ioga","zebra","ziguezague"]                      
 */
+
 randomNumber = Math.floor((Math.random() * quickDrawDataset.length) + 1);
 console.log(quickDrawDataset[randomNumber]);
 sketch = quickDrawDataset[randomNumber];
@@ -88,13 +89,49 @@ function setup() {
 function draw() {
     strokeWeight(7);
     stroke(0, 0, 0);
-    if(mouseIsPressed){
+    if (mouseIsPressed) {
         line(pmouseX, pmouseY, mouseX, mouseY);
     }
     checkSketch()
-    if(drawnSketch==sketch){
+    if (drawnSketch == sketch) {
         answerHolder = "set";
         score++;
-        document.getElementById('score').innerHTML = 'pontuação'+ score;
-    } 
+        document.getElementById('score').innerHTML = 'pontuação' + score;
+    }
+}
+
+function classifyCanvas() {
+    classifier.classify(canvas, gotResults);
+}
+
+function gotResults(error, results) {
+    if (error) {
+        console.error(error);
+    }
+    console.log(results);
+    drawnSketch = results[0].label;
+    document.getElementById('label').innerHTML = 'your sketch' + drawnSketch.replace("_")
+
+
+
+
+}
+function checkSketch() {
+    timeCounter++;
+    document.getElementById('time') = 'time' + timeCounter;
+    console.log(timeCounter);
+    if (timeCounter > 400) {
+
+        timeCounter = 0;
+        timerCheck = "completed";
+    }
+    if (timerCheck == "completed" || answerHolder == "set") {
+        timerCheck = "";
+        answerHolder = "";
+        updateCanvas();
+    }
+
+
+
+
 }
